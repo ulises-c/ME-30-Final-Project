@@ -11,4 +11,4 @@ class Participant:
         pass
     
     def __str__(self):
-        return "{}#{} has {} points".format(self.name, self.identifier, self.points)
+        return "{} has {} points".format(self.user, self.points)
