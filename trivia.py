@@ -1,10 +1,5 @@
 import random
-
-trivia_dictionary = {
-    "What is the capital of California?":"Sacramento",
-    "What year was SJSU founded":"1857",
-    "What is the element 'Fe'":"iron"
-}
+from trivia_q_a import trivia_dictionary
 
 def trivia():
     random_q = random.choice(list(trivia_dictionary))
