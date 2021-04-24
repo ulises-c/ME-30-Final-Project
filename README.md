@@ -1,6 +1,6 @@
 # ME-30-Final-Project
- SJSU ME 30 Final Project Spring 2021
- A trivia bot for discord
+ - SJSU ME 30 Final Project Spring 2021
+ - A trivia bot for discord
  
  ## How the game will work
  - To start the game send a trigger phrase like `.trivia` to activate the bot
