@@ -1,7 +1,15 @@
 # ME-30-Final-Project
- SJSU ME 30 Final Project
+ SJSU ME 30 Final Project Spring 2021
+ A trivia bot for discord
+ 
+ ### How the game will work
+ - To start the game send a trigger phrase like `.trivia` to activate the bot
+ - The bot will send a random trivia question from a dictionary
+ - The bot will wait up to 20 seconds for someone to send the correct answer
+ - The first person to submit the correct answer gets awarded a point
+ - If no one answers then the bot deactivates
 
-A trivia bot
+
 
 Roadmap
 - ~~Have a bot that connects to discord~~
