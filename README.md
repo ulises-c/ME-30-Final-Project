@@ -11,7 +11,7 @@
 
 
 
-##Roadmap
+## Roadmap
 - ~~Have a bot that connects to discord~~
 - Create a trivia game that works in the terminal
 - Have the discord bot send trivia questions with a trigger phrase
