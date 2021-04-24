@@ -19,4 +19,4 @@
 - Have the bot add a reaction emoji to the first person to respond with the correct answer
 - Add a point system
 - Create a database to keep track of points
-- Host the bot online
+- Host the bot online on a server instead of a local host
