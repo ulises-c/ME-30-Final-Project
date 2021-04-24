@@ -2,7 +2,7 @@
  SJSU ME 30 Final Project Spring 2021
  A trivia bot for discord
  
- ### How the game will work
+ ## How the game will work
  - To start the game send a trigger phrase like `.trivia` to activate the bot
  - The bot will send a random trivia question from a dictionary
  - The bot will wait up to 20 seconds for someone to send the correct answer
@@ -11,7 +11,7 @@
 
 
 
-Roadmap
+##Roadmap
 - ~~Have a bot that connects to discord~~
 - Create a trivia game that works in the terminal
 - Have the discord bot send trivia questions with a trigger phrase
