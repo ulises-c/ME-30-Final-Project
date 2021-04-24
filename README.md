@@ -4,7 +4,7 @@
 A trivia bot
 
 Roadmap
-- Have a bot that connects to discord
+- ---Have a bot that connects to discord--- DONE
 - Create a trivia game that works in the terminal
 - Have the discord bot send trivia questions with a trigger phrase
 - Have the bot recognize correct answers
