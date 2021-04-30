@@ -11,7 +11,7 @@ class TriviaGame:
         self.hint_time = hint_time
         self.questions = questions_list
         self.hint_time = hint_time
-        self.scores = []
+        self.current_scores = []
     
     def ask_question(self):
         """ Method to send a question """
