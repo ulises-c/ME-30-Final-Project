@@ -19,6 +19,10 @@ class TriviaGame:
         self.current_answer = None
         self.started = False
         self.quiz_channel = None
+
+    def reset_question_answer(self):
+        self.current_question = None
+        self.current_answer = None
     
     def select_question(self):
         """ Method to choose a question from the list """
@@ -45,12 +49,14 @@ class TriviaGame:
 
     async def check_answer(self, msg):
         """ Method to check if a response is correct or not """
-        case_insensitive_msg = msg.content.lower()
-        case_insensitive_answer = self.current_answer.lower()
+        if self.current_answer is not None:
+            case_insensitive_answer = self.current_answer.lower()
+            case_insensitive_msg = msg.content.lower()
 
-        if case_insensitive_msg == case_insensitive_answer:
-            await msg.add_reaction('😀')
-            await self.quiz_channel.send("Correct! `{}`".format(self.current_answer))
+            if case_insensitive_msg == case_insensitive_answer:
+                await msg.add_reaction('😀')
+                await self.quiz_channel.send("Correct! `{}`".format(self.current_answer))
+                self.reset_question_answer()
         pass
 
     def give_hint(self):
