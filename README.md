@@ -16,7 +16,7 @@
 - ~~Create a trivia game that works in the terminal~~
 - ~~Have the discord bot send trivia questions with a trigger phrase~~
 - ~~Have the bot recognize correct answers~~
-- Have the bot add a reaction emoji to the first person to respond with the correct answer
+- ~~Have the bot add a reaction emoji ONLY to the first person to respond with the correct answer~~
 - Add a point system
 - Create a database to keep track of points
 - Host the bot online on a server instead of a local host
