@@ -11,8 +11,12 @@ from discord.ext import commands
 # Files created for this project
 import trivia
 import Participant
+import trivia_game
+from trivia_q_a_v2 import trivia_list
 
 client = commands.Bot(command_prefix='.')
+quiz = trivia_game.TriviaGame(client, questions_list=trivia_list)
+current_a = ""
 
 @client.event
 async def on_ready():
@@ -23,11 +27,11 @@ async def on_message(message):
     # print(message.author)
     if message.author == client.user:
         return
-    
-    if message.content.startswith('.t'):
-        # await message.channel.send('No trivia questions ready yet.')
-        trivia_q = trivia.trivia()
-        await message.channel.send(trivia_q)
-        await message.add_reaction('🙂')
 
+    if message.content.startswith('.t'):
+        await quiz.ask_question(message)
+
+    elif not message.content.startswith('.t') and quiz.started:
+        await quiz.check_answer(message)
+               
 client.run(bot_token)
