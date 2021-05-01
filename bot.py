@@ -16,7 +16,6 @@ from trivia_q_a_v2 import trivia_list
 
 client = commands.Bot(command_prefix='.')
 quiz = trivia_game.TriviaGame(client, questions_list=trivia_list)
-current_a = ""
 
 @client.event
 async def on_ready():
@@ -24,14 +23,19 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    # print(message.author)
     if message.author == client.user:
         return
 
-    if message.content.startswith('.t'):
+    if message.content == ('.t'):
         await quiz.ask_question(message)
 
-    elif not message.content.startswith('.t') and quiz.started:
+    elif not message.content == ('.t') and quiz.started:
         await quiz.check_answer(message)
+    
+    if message.content == ('.p'):
+        scores = quiz.get_scores()
+        if scores != "":
+            await message.channel.send("```--- Points ---\n{}```".format(scores))
+            pass
                
 client.run(bot_token)

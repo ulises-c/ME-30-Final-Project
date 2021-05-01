@@ -6,6 +6,9 @@ class Participant:
         self.user = message.author # discord api
         self.points = points
 
+    def get_points(self):
+        return self.points
+
     def add_points(self):
         # based on correct answer from trivia response
         pass

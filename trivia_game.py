@@ -2,6 +2,8 @@ from discord import channel, message
 import trivia_q_a
 import trivia_q_a_v2
 import random
+import Participant
+from participantv2 import participants
 
 # Pass these as parameters for the trivia game
 trivia_questions = trivia_q_a.trivia_dictionary
@@ -36,6 +38,10 @@ class TriviaGame:
     def get_answer(self):
         return self.current_answer
 
+    def add_Participant(self, participant):
+        self.current_scores.append(participant)
+
+
     async def ask_question(self, msg):
         """ Method to send a question """
         self.started = True
@@ -57,6 +63,10 @@ class TriviaGame:
                 await msg.add_reaction('😀')
                 await self.quiz_channel.send("Correct! `{}`".format(self.current_answer))
                 self.reset_question_answer()
+                if(msg.author not in participants):
+                    participants[msg.author] = 1
+                elif(msg.author in participants):
+                    participants[msg.author] += 1
         pass
 
     def give_hint(self):
@@ -64,4 +74,10 @@ class TriviaGame:
         pass
     
     def get_scores(self):
-        return self.scores
+        a_string = ""
+        if len(participants) < 1:
+            return
+        else:
+            for key in participants:
+                a_string += "{}: {}\n".format(key, participants[key])
+            return a_string
