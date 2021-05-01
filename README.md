@@ -18,5 +18,8 @@
 - ~~Have the bot recognize correct answers~~
 - ~~Have the bot add a reaction emoji ONLY to the first person to respond with the correct answer~~
 - ~~Add a point system~~
-- Create a database to keep track of points
+- Add a method that sends a list of commands
+- Add a method for the scores list to reset after a certain amount of time of inactivity
+- Add a method so the an ongoing trivia game is only done in one channel
 - Host the bot online on a server instead of a local host
+- Create a database to keep track of points

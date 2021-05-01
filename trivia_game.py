@@ -1,16 +1,13 @@
 from discord import channel, message
-import trivia_q_a
-import trivia_q_a_v2
+from trivia_q_a_v2 import trivia_list
 import random
-import Participant
 from participantv2 import participants
 
 # Pass these as parameters for the trivia game
-trivia_questions = trivia_q_a.trivia_dictionary
-trivia_questions2 = trivia_q_a_v2.trivia_list
+trivia_questions2 = trivia_list
 
 class TriviaGame:
-    def __init__(self, client, message = None, questions_list = None, hint_time=10) -> None:
+    def __init__(self, client, message = None, questions_list = trivia_list, hint_time=10) -> None:
         self.client = client
         self.message = message
         self.hint_time = hint_time
@@ -29,8 +26,9 @@ class TriviaGame:
     def select_question(self):
         """ Method to choose a question from the list """
         random_num = random.randint(0, len(trivia_questions2)-1)
-        self.current_question = trivia_questions2[random_num].question
-        self.current_answer = trivia_questions2[random_num].answers
+        self.current_question = self.questions[random_num].question
+        self.current_answer = self.questions[random_num].answers
+        print(self.questions[random_num])
 
     def get_question(self):
         return self.current_question
@@ -38,7 +36,8 @@ class TriviaGame:
     def get_answer(self):
         return self.current_answer
 
-    def add_Participant(self, participant):
+    def add_participant(self, participant):
+        """ This method may be used as a long term solution to a participants database """
         self.current_scores.append(participant)
 
 
@@ -51,7 +50,6 @@ class TriviaGame:
 
         await self.quiz_channel.send(question)
         await self.quiz_channel.send("For testing purposes, the answser is `{}`".format(self.current_answer))
-        pass
 
     async def check_answer(self, msg):
         """ Method to check if a response is correct or not """
@@ -61,23 +59,27 @@ class TriviaGame:
 
             if case_insensitive_msg == case_insensitive_answer:
                 await msg.add_reaction('😀')
-                await self.quiz_channel.send("Correct! `{}`".format(self.current_answer))
+                # await self.quiz_channel.send("Correct! `{}`".format(self.current_answer))
+                await msg.reply("Correct! `{}`".format(self.current_answer))
                 self.reset_question_answer()
                 if(msg.author not in participants):
                     participants[msg.author] = 1
                 elif(msg.author in participants):
                     participants[msg.author] += 1
-        pass
 
     def give_hint(self):
-        """ Method to give a hint """
+        """ Method to give a hint after a certain amount of time passes """
+        pass
+
+    def quiz_end(self):
+        """ End the quiz either after a certain amount of time passes without an answer/reply, or after a command to end the quiz"""
         pass
     
-    def get_scores(self):
-        a_string = ""
+    async def send_scores(self, msg):
+        scores_string = ""
         if len(participants) < 1:
             return
         else:
             for key in participants:
-                a_string += "{}: {}\n".format(key, participants[key])
-            return a_string
+                scores_string += "{}: {}\n".format(key, participants[key])
+            await self.quiz_channel.send("```--- Points ---\n{}```".format(scores_string))

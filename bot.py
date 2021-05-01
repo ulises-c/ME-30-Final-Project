@@ -9,13 +9,10 @@ import discord
 from discord.ext import commands
 
 # Files created for this project
-import trivia
-import Participant
-import trivia_game
-from trivia_q_a_v2 import trivia_list
+import trivia_game as tg
 
 client = commands.Bot(command_prefix='.')
-quiz = trivia_game.TriviaGame(client, questions_list=trivia_list)
+trivia = tg.TriviaGame(client)
 
 @client.event
 async def on_ready():
@@ -26,16 +23,17 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content == ('.t'):
-        await quiz.ask_question(message)
+    if message.content == ('.t' or 'trivia'):
+        await trivia.ask_question(message)
 
-    elif not message.content == ('.t') and quiz.started:
-        await quiz.check_answer(message)
+    elif not message.content == ('.t' or 'trivia') and trivia.started:
+        await trivia.check_answer(message)
     
-    if message.content == ('.p'):
-        scores = quiz.get_scores()
-        if scores != "":
-            await message.channel.send("```--- Points ---\n{}```".format(scores))
-            pass
+    if message.content == ('.p' or 'points'):
+        await trivia.send_scores(message)
+    
+    if message.content == ('.h' or '.help'):
+        """ Send a list of commands """
+        await message.reply("Still under development")
                
 client.run(bot_token)
