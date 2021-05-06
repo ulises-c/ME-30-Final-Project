@@ -12,14 +12,14 @@
 
 
 ## Roadmap
-### Completed
+#### Completed
 - Have a bot that connects to discord
 - Create a trivia game that works in the terminal
 - Have the discord bot send trivia questions with a trigger phrase
 - Have the bot recognize correct answers
 - Have the bot add a reaction emoji ONLY to the first person to respond with the correct answer
 - Add a point system
-### In Progress
+#### In Progress
 - Add a method that sends a list of commands
 - Add a method for the scores list to reset after a certain amount of time of inactivity
 - Add a method so the an ongoing trivia game is only done in one channel
