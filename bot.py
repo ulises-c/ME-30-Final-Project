@@ -23,17 +23,22 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content == ('.t' or 'trivia'):
+    if message.content == ('.t') or message.content == ('.trivia'):
         await trivia.ask_question(message)
-
-    elif not message.content == ('.t' or 'trivia') and trivia.started:
+        await trivia.give_hint(message)
+        
+    elif not message.content == ('.t') or not message.content == ('.trivia') and trivia.started:
         await trivia.check_answer(message)
     
-    if message.content == ('.p' or 'points'):
+    if message.content == ('.p') or message.content == ('.points'):
         await trivia.send_scores(message)
     
-    if message.content == ('.h' or '.help'):
+    if message.content == ('.h') or message.content == ('.help'):
         """ Send a list of commands """
-        await message.reply("Still under development")
+        await trivia.commands_list(message)
+
+    if message.content == ('.r') or message.content == ('.reset'):
+        await trivia.score_reset(message)
+
                
 client.run(bot_token)

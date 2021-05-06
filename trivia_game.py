@@ -2,12 +2,13 @@ from discord import channel, message
 from trivia_q_a_v2 import trivia_list
 import random
 from participantv2 import participants
+import time
 
 # Pass these as parameters for the trivia game
 trivia_questions2 = trivia_list
 
 class TriviaGame:
-    def __init__(self, client, message = None, questions_list = trivia_list, hint_time=10) -> None:
+    def __init__(self, client, message = None, questions_list = trivia_list, hint_time=10, max_points=10) -> None:
         self.client = client
         self.message = message
         self.hint_time = hint_time
@@ -16,8 +17,11 @@ class TriviaGame:
         self.current_scores = []
         self.current_question = None
         self.current_answer = None
+        self.current_hint = None
         self.started = False
         self.quiz_channel = None
+        self.max_points = max_points 
+        self.correct_answer = False
 
     def reset_question_answer(self):
         self.current_question = None
@@ -28,6 +32,7 @@ class TriviaGame:
         random_num = random.randint(0, len(trivia_questions2)-1)
         self.current_question = self.questions[random_num].question
         self.current_answer = self.questions[random_num].answers
+        self.current_hint = self.questions[random_num].hints
         print(self.questions[random_num])
 
     def get_question(self):
@@ -35,6 +40,7 @@ class TriviaGame:
 
     def get_answer(self):
         return self.current_answer
+        
 
     def add_participant(self, participant):
         """ This method may be used as a long term solution to a participants database """
@@ -44,6 +50,7 @@ class TriviaGame:
     async def ask_question(self, msg):
         """ Method to send a question """
         self.started = True
+        self.correct_answer = False
         self.select_question()
         question = self.current_question
         self.quiz_channel = msg.channel
@@ -58,24 +65,45 @@ class TriviaGame:
             case_insensitive_msg = msg.content.lower()
 
             if case_insensitive_msg == case_insensitive_answer:
+                self.correct_answer = True
                 await msg.add_reaction('😀')
-                # await self.quiz_channel.send("Correct! `{}`".format(self.current_answer))
                 await msg.reply("Correct! `{}`".format(self.current_answer))
                 self.reset_question_answer()
                 if(msg.author not in participants):
                     participants[msg.author] = 1
                 elif(msg.author in participants):
                     participants[msg.author] += 1
+                    if participants[msg.author] == self.max_points:
+                        await msg.reply('Congratulations! `{0}` won the game!'.format(msg.author))
+                        self.reset_scores()
 
-    def give_hint(self):
-        """ Method to give a hint after a certain amount of time passes """
-        pass
+    async def give_hint(self, msg):
+        """ Method to give a hint after a certain amount of time passes
+        Current works, but can be improved to remove the 10 second delay """
+        if(self.quiz_channel == None):
+            return
+        give_hint = False
+        keep_going = True
+        start_time = time.time()
+        while(keep_going):
+            current_time = time.time()
+            if(self.correct_answer):
+                keep_going = False
+                give_hint = False
+            if(current_time - start_time >= self.hint_time):
+                keep_going = False
+                give_hint = True
+
+        if(give_hint and not self.correct_answer):
+            await self.quiz_channel.send("Hint: {}".format(self.current_hint))
+
 
     def quiz_end(self):
         """ End the quiz either after a certain amount of time passes without an answer/reply, or after a command to end the quiz"""
         pass
     
     async def send_scores(self, msg):
+        """ Sends the current points each participant has """
         scores_string = ""
         if len(participants) < 1:
             return
@@ -83,3 +111,17 @@ class TriviaGame:
             for key in participants:
                 scores_string += "{}: {}\n".format(key, participants[key])
             await self.quiz_channel.send("```--- Points ---\n{}```".format(scores_string))
+
+    async def commands_list(self, msg):
+        """ Sends a list of commands"""
+        command_list = ["`.t` or `.trivia` to start trivia ","`.p` or `.points` to check points","`.h` or `.help` for help", "`.r` or `.reset` to reset scores"]
+        await msg.reply("Commands: \n{0} \n{1} \n{2} \n{3}".format(command_list[0],command_list[1],command_list[2],command_list[3]))
+
+    def reset_scores(self):
+        for key in participants:
+            participants[key] = 0
+    
+    async def score_reset(self, msg):
+        self.reset_scores()
+        await msg.reply("Cleared scores")
+        
