@@ -35,7 +35,7 @@ async def on_message(message):
         await trivia.commands_list(message)
 
     if message.content == ('.r') or message.content == ('.reset'):
-        await trivia.score_reset(message)
+        await trivia.values_reset(message)
 
     if message.content == ('.g') or message.content == ('.github'):
         await trivia.send_github(message)

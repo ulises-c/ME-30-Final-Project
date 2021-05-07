@@ -14,13 +14,13 @@ class TriviaGame:
         self.hint_time = hint_time
         self.questions = questions_list
         self.hint_time = hint_time
+        self.max_points = max_points
         self.current_scores = []
         self.current_question = None
         self.current_answer = None
         self.current_hint = None
         self.started = False
         self.quiz_channel = None
-        self.max_points = max_points 
         self.correct_answer = False
 
     def reset_question_answer(self):
@@ -73,7 +73,7 @@ class TriviaGame:
                     participants[msg.author] += 1
                     if participants[msg.author] == self.max_points:
                         await msg.reply('Congratulations! `{0}` won the game!'.format(msg.author))
-                        self.reset_scores()
+                        self.quiz_end()
 
     async def give_hint(self, msg):
         """ Method to give a hint after a certain amount of time passes
@@ -91,7 +91,13 @@ class TriviaGame:
 
     def quiz_end(self):
         """ End the quiz either after a certain amount of time passes without an answer/reply, or after a command to end the quiz"""
-        pass
+        self.current_scores = []
+        self.current_question = None
+        self.current_answer = None
+        self.current_hint = None
+        self.started = False
+        self.quiz_channel = None
+        self.correct_answer = False
     
     async def send_scores(self, msg):
         """ Sends the current points each participant has """
@@ -116,12 +122,13 @@ class TriviaGame:
             command_string += "\n" + command
         await msg.reply("Commands: {}".format(command_string))
 
-    def reset_scores(self):
+    def reset_values(self):
         for key in participants:
             participants[key] = 0
+        self.started = False
     
-    async def score_reset(self, msg):
-        self.reset_scores()
+    async def values_reset(self, msg):
+        self.reset_values()
         await msg.reply("Cleared scores")
 
     async def send_github(self, msg):
