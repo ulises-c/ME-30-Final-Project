@@ -122,12 +122,14 @@ class TriviaGame:
     async def send_scores(self, msg):
         """ Sends the current points each participant has """
         scores_string = ""
-        if len(participants) < 1:
+        if (len(participants) < 1):
             await msg.reply("Participants list is empty. No points yet.")
+        elif (self.quiz_channel is None):
+            await msg.reply("No ongoing quiz.")
         else:
             for key in participants:
                 scores_string += "{}: {}\n".format(key, participants[key])
-            # await self.quiz_channel.send("```--- Points ---\n{}```".format(scores_string))
+            # await self.quiz_channel.send("```--- Points ---\n{}```".format(scores_string)) # Commented out since self.quiz_channel is None causes an error
             await msg.reply("```--- Points ---\n{}```".format(scores_string))
 
     async def commands_list(self, msg):
