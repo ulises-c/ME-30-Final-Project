@@ -105,8 +105,16 @@ class TriviaGame:
 
     async def commands_list(self, msg):
         """ Sends a list of commands """
-        command_list = ["`.t` or `.trivia` to start trivia ","`.p` or `.points` to check points","`.h` or `.help` for help", "`.r` or `.reset` to reset scores"]
-        await msg.reply("Commands: \n{0} \n{1} \n{2} \n{3}".format(command_list[0],command_list[1],command_list[2],command_list[3]))
+        command_list = ["`.t` or `.trivia` to start trivia ",
+        "`.p` or `.points` to check points",
+        "`.h` or `.help` for help",
+        "`.r` or `.reset` to reset scores",
+        "`.g` or `.github` to send a GitHub link"
+        ]
+        command_string = ""
+        for command in command_list:
+            command_string += "\n" + command
+        await msg.reply("Commands: {}".format(command_string))
 
     def reset_scores(self):
         for key in participants:
