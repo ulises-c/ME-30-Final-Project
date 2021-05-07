@@ -8,7 +8,7 @@ import time
 trivia_questions2 = trivia_list
 
 class TriviaGame:
-    def __init__(self, client, message = None, questions_list = trivia_list, hint_time=10, max_points=10) -> None:
+    def __init__(self, client, message = None, questions_list = trivia_list, hint_time=5, max_points=5) -> None:
         self.client = client
         self.message = message
         self.hint_time = hint_time
@@ -67,7 +67,7 @@ class TriviaGame:
             if case_insensitive_msg == case_insensitive_answer:
                 self.correct_answer = True
                 await msg.add_reaction('😀')
-                await msg.reply("Correct! `{}`".format(self.current_answer))
+                await msg.reply("Correct! `{0}` \n`{1}` got the point!".format(self.current_answer, msg.author))
                 self.reset_question_answer()
                 if(msg.author not in participants):
                     participants[msg.author] = 1
