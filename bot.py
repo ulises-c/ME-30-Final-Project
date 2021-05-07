@@ -6,7 +6,6 @@ from discord.ext import commands
 import trivia_game as tg
 
 # Used to load token to login to the Discord Bot
-from env_token import Config
 from env_token import local_token
 from env_token import heroku_token
 
@@ -40,7 +39,5 @@ async def on_message(message):
     if message.content == ('.r') or message.content == ('.reset'):
         await trivia.score_reset(message)
 
-# the_token = Config['OAUTH_TOKEN']
-# client.run(the_token)
 # client.run(local_token)
 client.run(heroku_token)
