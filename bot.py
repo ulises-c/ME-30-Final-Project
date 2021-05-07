@@ -43,5 +43,5 @@ async def on_message(message):
     if message.content == ('.e') or message.content == ('.end'):
         await trivia.force_end(message)
 
-client.run(local_token)
-# client.run(heroku_token)
+# client.run(local_token)
+client.run(heroku_token)
