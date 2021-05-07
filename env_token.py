@@ -5,5 +5,5 @@ load_dotenv('.env')
 local_token = os.getenv('secret_bot_token') # Use when testing locally
 heroku_token = os.getenv('OAUTH_TOKEN')
 
-# class Config(object):
-#     OAUTH_TOKEN = os.getenv('OAUTH_TOKEN') 
+class Config(object):
+    OAUTH_TOKEN = os.getenv('OAUTH_TOKEN') 
