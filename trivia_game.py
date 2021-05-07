@@ -115,4 +115,7 @@ class TriviaGame:
     async def score_reset(self, msg):
         self.reset_scores()
         await msg.reply("Cleared scores")
+
+    async def send_github(self, msg):
+        await msg.reply("https://github.com/ulises-c/ME-30-Final-Project")
         

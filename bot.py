@@ -37,5 +37,8 @@ async def on_message(message):
     if message.content == ('.r') or message.content == ('.reset'):
         await trivia.score_reset(message)
 
+    if message.content == ('.g') or message.content == ('.github'):
+        await trivia.send_github(message)
+
 # client.run(local_token)
 client.run(heroku_token)
