@@ -137,7 +137,7 @@ class TriviaGame:
             "`.p` or `.points` to check points",
             "`.h` or `.help` for help",
             "`.r` or `.reset` to reset scores, keeps the quiz going",
-            "`.g` or `.github` to send a GitHub link"
+            "`.g` or `.github` to send a GitHub link",
             "`.e` or `.end` to end the quiz and reset all values"
         ]
         command_string = ""
