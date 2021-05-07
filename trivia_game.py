@@ -93,17 +93,19 @@ class TriviaGame:
     def check_quiz_end(self, msg, points=0, force_end=False):
         """ End the quiz either after a certain amount of time passes without an answer/reply, or after a command is sent
         Upon execution resets many values in the contructor """
-        # Ending based on reaching max points
         ending_bool = False
         ending_string = ""
         current_points = points
+        # Ending based on reaching max points
         if(current_points >= self.max_points):
             print("Current: {}, Goal: {}".format(current_points, self.max_points))
             ending_string = 'Congratulations! `{0}` won the game!'.format(msg.author)
             ending_bool = True
+        # Ending based on command
         elif(force_end):
             ending_string = '`{0}` force ended the quiz. Resetting all values.'.format(msg.author)
             ending_bool = True
+        # Ending based on reaching time limit not coded yet
         if(ending_bool):
             self.current_scores = []
             self.current_question = None
@@ -114,8 +116,7 @@ class TriviaGame:
             self.correct_answer = False
             for key in participants:
                 participants[key] = 0
-        return ending_bool, ending_string
-        # Ending based on reaching time limit not coded yet
+        return ending_bool, ending_string     
     
     async def force_end(self, msg):
         ending, force_end_string = self.check_quiz_end(msg, force_end=True)
