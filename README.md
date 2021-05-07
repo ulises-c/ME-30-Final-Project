@@ -21,7 +21,7 @@
 - Add a point system
 - Add a method that sends a list of commands
 - Add a method to reset scores with a command
-- Add a hint system (Need improvement, currently stalls
+- Add a hint system (Need improvement, currently stalls other processes)
 - Host the bot online on a server instead of a local host (Hosted via Heroku)
 #### In Progress
 - Add a method to automatically send a new question after a question is correctly answered
