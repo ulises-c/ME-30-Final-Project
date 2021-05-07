@@ -39,5 +39,6 @@ async def on_message(message):
     if message.content == ('.r') or message.content == ('.reset'):
         await trivia.score_reset(message)
 
-the_token = Config['OAUTH_TOKEN']               
+the_token = Config['OAUTH_TOKEN']
 client.run(the_token)
+# client.run(local_token)
