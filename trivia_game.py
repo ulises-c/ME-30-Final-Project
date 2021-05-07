@@ -1,11 +1,11 @@
-from discord import channel, message
+# Imports files from this repository
 from trivia_q_a_v2 import trivia_list
-import random
 from participantv2 import participants
-import time
 
-# Pass these as parameters for the trivia game
-trivia_questions2 = trivia_list
+# Imports from public libraries
+from discord import channel, message
+import time
+import random
 
 class TriviaGame:
     def __init__(self, client, message = None, questions_list = trivia_list, hint_time=5, max_points=5) -> None:
@@ -15,7 +15,7 @@ class TriviaGame:
         self.questions = questions_list
         self.hint_time = hint_time
         self.max_points = max_points
-        self.current_scores = [] # Not used currently
+        self.current_scores = [] # Not used currently. For use once a persistent database is built
         self.current_question = None
         self.current_answer = None
         self.current_hint = None
@@ -29,7 +29,7 @@ class TriviaGame:
     
     def select_question(self):
         """ Method to choose a question from the list """
-        random_num = random.randint(0, len(trivia_questions2)-1)
+        random_num = random.randint(0, len(self.questions)-1)
         self.current_question = self.questions[random_num].question
         self.current_answer = self.questions[random_num].answers
         self.current_hint = self.questions[random_num].hints
@@ -43,7 +43,7 @@ class TriviaGame:
 
     def add_participant(self, participant):
         """ This method may be used as a long term solution to a participants database """
-        # Not used currently
+        # Not used currently. For use once a persistent database is built
         self.current_scores.append(participant)
 
     async def ask_question(self, msg):
@@ -72,8 +72,9 @@ class TriviaGame:
                     participants[msg.author] = 1
                 elif(msg.author in participants):
                     participants[msg.author] += 1
-                    if(self.check_quiz_end(msg, points=participants[msg.author])):
-                        await msg.reply('Congratulations! `{0}` won the game!'.format(msg.author))
+                    end_game, end_string = self.check_quiz_end(msg, points=participants[msg.author])
+                    if(end_game):
+                        await msg.reply(end_string)
 
     async def give_hint(self, msg):
         """ Method to give a hint after a certain amount of time passes
@@ -95,7 +96,9 @@ class TriviaGame:
         # Ending based on reaching max points
         ending_bool = False
         ending_string = ""
-        if(points >= self.max_points):
+        current_points = points
+        if(current_points >= self.max_points):
+            print("Current: {}, Goal: {}".format(current_points, self.max_points))
             ending_string = 'Congratulations! `{0}` won the game!'.format(msg.author)
             ending_bool = True
         elif(force_end):
