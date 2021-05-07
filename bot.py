@@ -1,15 +1,13 @@
-# Used to log in the bot and have the token hidden
-from dotenv import load_dotenv
-import os
-load_dotenv()
-bot_token = os.getenv('secret_bot_token')
-
 # Library to use the discord api for python
 import discord
 from discord.ext import commands
 
 # Files created for this project
 import trivia_game as tg
+
+# Used to load token to login to the Discord Bot
+from env_token import Config
+from env_token import local_token
 
 client = commands.Bot(command_prefix='.')
 trivia = tg.TriviaGame(client)
@@ -41,5 +39,5 @@ async def on_message(message):
     if message.content == ('.r') or message.content == ('.reset'):
         await trivia.score_reset(message)
 
-               
-client.run(bot_token)
+the_token = Config['OAUTH_TOKEN']               
+client.run(the_token)
