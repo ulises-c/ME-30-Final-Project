@@ -161,5 +161,6 @@ class TriviaGame:
         await msg.reply("Cleared scores")
 
     async def send_github(self, msg):
+        """ Sends a link to the github repository that hosts the source code """
         await msg.reply("https://github.com/ulises-c/ME-30-Final-Project")
         
