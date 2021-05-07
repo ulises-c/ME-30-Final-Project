@@ -35,10 +35,13 @@ async def on_message(message):
         await trivia.commands_list(message)
 
     if message.content == ('.r') or message.content == ('.reset'):
-        await trivia.values_reset(message)
+        await trivia.reset_message(message)
 
     if message.content == ('.g') or message.content == ('.github'):
         await trivia.send_github(message)
+    
+    if message.content == ('.e') or message.content == ('.end'):
+        await trivia.force_end(message)
 
-# client.run(local_token)
-client.run(heroku_token)
+client.run(local_token)
+# client.run(heroku_token)

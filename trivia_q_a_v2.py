@@ -45,6 +45,3 @@ trivia_list = [
     TriviaQnA("Who invented Hot Cheetos?", "Richard Montanez", category="Inventors", hints="First name Richard"),
     TriviaQnA("Who invented the ice cream maker?", "Nancy Johnson", category="Inventors", hints="First name Nancy"),
 ]
-
-# for t in trivia_list:
-#     print(t)

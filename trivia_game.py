@@ -15,7 +15,7 @@ class TriviaGame:
         self.questions = questions_list
         self.hint_time = hint_time
         self.max_points = max_points
-        self.current_scores = []
+        self.current_scores = [] # Not used currently
         self.current_question = None
         self.current_answer = None
         self.current_hint = None
@@ -43,6 +43,7 @@ class TriviaGame:
 
     def add_participant(self, participant):
         """ This method may be used as a long term solution to a participants database """
+        # Not used currently
         self.current_scores.append(participant)
 
     async def ask_question(self, msg):
@@ -71,9 +72,8 @@ class TriviaGame:
                     participants[msg.author] = 1
                 elif(msg.author in participants):
                     participants[msg.author] += 1
-                    if participants[msg.author] == self.max_points:
+                    if(self.check_quiz_end(msg, points=participants[msg.author])):
                         await msg.reply('Congratulations! `{0}` won the game!'.format(msg.author))
-                        self.quiz_end()
 
     async def give_hint(self, msg):
         """ Method to give a hint after a certain amount of time passes
@@ -89,25 +89,46 @@ class TriviaGame:
         if(not self.correct_answer):
             await self.quiz_channel.send("Hint: {}".format(self.current_hint))    
 
-    def quiz_end(self):
-        """ End the quiz either after a certain amount of time passes without an answer/reply, or after a command to end the quiz"""
-        self.current_scores = []
-        self.current_question = None
-        self.current_answer = None
-        self.current_hint = None
-        self.started = False
-        self.quiz_channel = None
-        self.correct_answer = False
+    def check_quiz_end(self, msg, points=0, force_end=False):
+        """ End the quiz either after a certain amount of time passes without an answer/reply, or after a command is sent
+        Upon execution resets many values in the contructor """
+        # Ending based on reaching max points
+        ending_bool = False
+        ending_string = ""
+        if(points >= self.max_points):
+            ending_string = 'Congratulations! `{0}` won the game!'.format(msg.author)
+            ending_bool = True
+        elif(force_end):
+            ending_string = '`{0}` force ended the quiz. Resetting all values.'.format(msg.author)
+            ending_bool = True
+        if(ending_bool):
+            self.current_scores = []
+            self.current_question = None
+            self.current_answer = None
+            self.current_hint = None
+            self.started = False
+            self.quiz_channel = None
+            self.correct_answer = False
+            for key in participants:
+                participants[key] = 0
+        return ending_bool, ending_string
+        # Ending based on reaching time limit not coded yet
+    
+    async def force_end(self, msg):
+        ending, force_end_string = self.check_quiz_end(msg, force_end=True)
+        if(ending):
+            await msg.reply(force_end_string)
     
     async def send_scores(self, msg):
         """ Sends the current points each participant has """
         scores_string = ""
         if len(participants) < 1:
-            return
+            await msg.reply("Participants list is empty. No points yet.")
         else:
             for key in participants:
                 scores_string += "{}: {}\n".format(key, participants[key])
-            await self.quiz_channel.send("```--- Points ---\n{}```".format(scores_string))
+            # await self.quiz_channel.send("```--- Points ---\n{}```".format(scores_string))
+            await msg.reply("```--- Points ---\n{}```".format(scores_string))
 
     async def commands_list(self, msg):
         """ Sends a list of commands """
@@ -116,6 +137,7 @@ class TriviaGame:
         "`.h` or `.help` for help",
         "`.r` or `.reset` to reset scores",
         "`.g` or `.github` to send a GitHub link"
+        "`.e` or `.end` to end the quiz and reset all values"
         ]
         command_string = ""
         for command in command_list:
@@ -123,11 +145,15 @@ class TriviaGame:
         await msg.reply("Commands: {}".format(command_string))
 
     def reset_values(self):
+        """ Resets the scores without reseting every value in the constructor """
+        # May be a redudant method after check_quiz_end is developed
         for key in participants:
             participants[key] = 0
         self.started = False
     
-    async def values_reset(self, msg):
+    async def reset_message(self, msg):
+        """ Sends a message to verify that the values were reset"""
+        # May be a redudant method after force_end is developed
         self.reset_values()
         await msg.reply("Cleared scores")
 
