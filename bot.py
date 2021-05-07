@@ -24,7 +24,6 @@ async def on_message(message):
     if message.content == ('.t') or message.content == ('.trivia'):
         await trivia.ask_question(message)
         await trivia.give_hint(message)
-        # Currently creates a 10 second delay between any action after give_hint is called
         
     elif not message.content == ('.t') or not message.content == ('.trivia') and trivia.started:
         await trivia.check_answer(message)
@@ -33,7 +32,6 @@ async def on_message(message):
         await trivia.send_scores(message)
     
     if message.content == ('.h') or message.content == ('.help'):
-        """ Send a list of commands """
         await trivia.commands_list(message)
 
     if message.content == ('.r') or message.content == ('.reset'):

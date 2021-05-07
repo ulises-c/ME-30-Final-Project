@@ -40,12 +40,10 @@ class TriviaGame:
 
     def get_answer(self):
         return self.current_answer
-        
 
     def add_participant(self, participant):
         """ This method may be used as a long term solution to a participants database """
         self.current_scores.append(participant)
-
 
     async def ask_question(self, msg):
         """ Method to send a question """
@@ -79,24 +77,17 @@ class TriviaGame:
 
     async def give_hint(self, msg):
         """ Method to give a hint after a certain amount of time passes
-        Current works, but can be improved to remove the 10 second delay """
+        Current works, but can be improved to remove the delay """
         if(self.quiz_channel == None):
             return
-        give_hint = False
         keep_going = True
         start_time = time.time()
         while(keep_going):
             current_time = time.time()
-            if(self.correct_answer):
+            if(current_time - start_time >= self.hint_time) or (self.correct_answer):
                 keep_going = False
-                give_hint = False
-            if(current_time - start_time >= self.hint_time):
-                keep_going = False
-                give_hint = True
-
-        if(give_hint and not self.correct_answer):
-            await self.quiz_channel.send("Hint: {}".format(self.current_hint))
-
+        if(not self.correct_answer):
+            await self.quiz_channel.send("Hint: {}".format(self.current_hint))    
 
     def quiz_end(self):
         """ End the quiz either after a certain amount of time passes without an answer/reply, or after a command to end the quiz"""
@@ -113,7 +104,7 @@ class TriviaGame:
             await self.quiz_channel.send("```--- Points ---\n{}```".format(scores_string))
 
     async def commands_list(self, msg):
-        """ Sends a list of commands"""
+        """ Sends a list of commands """
         command_list = ["`.t` or `.trivia` to start trivia ","`.p` or `.points` to check points","`.h` or `.help` for help", "`.r` or `.reset` to reset scores"]
         await msg.reply("Commands: \n{0} \n{1} \n{2} \n{3}".format(command_list[0],command_list[1],command_list[2],command_list[3]))
 
