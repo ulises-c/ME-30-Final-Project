@@ -22,10 +22,10 @@
 - Add a method that sends a list of commands
 - Add a method to reset scores with a command
 - Add a hint system (Need improvement, currently stalls
+- Host the bot online on a server instead of a local host (Hosted via Heroku)
 #### In Progress
 - Add a method to automatically send a new question after a question is correctly answered
 - Add a method for the scores list to reset after a certain amount of time of inactivity
 - Add a method so the an ongoing trivia game is only done in one channel
 - Add more questions
-- Host the bot online on a server instead of a local host
 - Create a database to keep track of points
