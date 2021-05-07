@@ -132,12 +132,13 @@ class TriviaGame:
 
     async def commands_list(self, msg):
         """ Sends a list of commands """
-        command_list = ["`.t` or `.trivia` to start trivia ",
-        "`.p` or `.points` to check points",
-        "`.h` or `.help` for help",
-        "`.r` or `.reset` to reset scores",
-        "`.g` or `.github` to send a GitHub link"
-        "`.e` or `.end` to end the quiz and reset all values"
+        command_list = [
+            "`.t` or `.trivia` to start trivia ",
+            "`.p` or `.points` to check points",
+            "`.h` or `.help` for help",
+            "`.r` or `.reset` to reset scores, keeps the quiz going",
+            "`.g` or `.github` to send a GitHub link"
+            "`.e` or `.end` to end the quiz and reset all values"
         ]
         command_string = ""
         for command in command_list:
