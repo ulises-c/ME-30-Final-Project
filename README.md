@@ -1,6 +1,7 @@
 # ME-30-Final-Project
  - SJSU ME 30 Final Project Spring 2021
  - A trivia bot for discord
+ - Google Slides Presentation: https://docs.google.com/presentation/d/1zFO991BiDnLPzd4zeaLfPFQxIl-B6TFXH_q6eQU3-EE/edit?usp=sharing
  
  ## How the game will work
  - To start the game send a trigger phrase like `.trivia` to activate the bot
