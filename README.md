@@ -1,6 +1,8 @@
 # ME-30-Final-Project
  - SJSU ME 30 Final Project Spring 2021
- - A trivia bot for discord
+ - A trivia bot for discord using the discord-py API
+ - Hosted via Heroku
+ - Team collaboration via VS Code Live Share extension.
  - Google Slides Presentation: https://docs.google.com/presentation/d/1zFO991BiDnLPzd4zeaLfPFQxIl-B6TFXH_q6eQU3-EE/edit?usp=sharing
  
  ## How the game will work
@@ -9,8 +11,6 @@
  - The bot will wait up to 20 seconds for someone to send the correct answer
  - The first person to submit the correct answer gets awarded a point
  - If no one answers then the bot deactivates
-
-
 
 ## Roadmap
 #### Completed
